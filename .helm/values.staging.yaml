@@ -1,0 +1,19 @@
+image:
+  path: "/deps-platform/deps-generic-unifier-plugin"
+resources:
+
+generic_unifier_plugin_settings:
+  ENV: staging
+  VERIFY_SSL: 'false'
+  OBJECT_STORAGE_TYPE: aws
+  S3_BUCKET_NAME: bucket_name
+  S3_ENDPOINT_URL: https://s3.eu-central-1.amazonaws.com
+
+csi:
+  vault_namespace: 'k8s-staging'
+  roleName: 'k8s-staging'
+  vaultKubernetesMountPath: 'kubernetes-staging'
+
+service_account:
+  serviceAccountName: 'deps-staging'
+

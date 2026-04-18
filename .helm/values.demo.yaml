@@ -1,0 +1,19 @@
+image:
+  path: "/deps-platform/deps-generic-unifier-plugin"
+resources:
+
+generic_unifier_plugin_settings:
+  ENV: demo
+  VERIFY_SSL: 'false'
+  OBJECT_STORAGE_TYPE: aws
+  S3_BUCKET_NAME: bucket_name
+  S3_ENDPOINT_URL: https://s3.us-east-1.amazonaws.com
+
+csi:
+  vault_namespace: 'k8s-demo'
+  roleName: 'k8s-demo'
+  vaultKubernetesMountPath: 'kubernetes-demo'
+
+service_account:
+  serviceAccountName: 'deps-demo'
+

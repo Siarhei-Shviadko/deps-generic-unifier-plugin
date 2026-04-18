@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: generic-unifier-plugin
+  labels:
+    {{- include "generic-unifier-plugin.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "generic-unifier-plugin.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,18 @@
+image:
+  path: "/deps-platform/deps-generic-unifier-plugin"
+resources:
+
+generic_unifier_plugin_settings:
+  ENV: qa
+  VERIFY_SSL: 'false'
+
+  # Telemetry
+  INSTRUMENTATION_ENABLED: true
+
+csi:
+  vault_namespace: 'k8s-qa'
+  roleName: 'k8s-qa'
+  vaultKubernetesMountPath: 'kubernetes-qa'
+
+service_account:
+  serviceAccountName: 'deps-qa'

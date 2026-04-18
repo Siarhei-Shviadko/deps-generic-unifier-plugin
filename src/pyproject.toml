@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "generic-unifier-plugin"
+version = "0.1.0"
+description = "Generic unifier plugin used for unification documents by default if specific plugin doesn't proided"
+authors = []
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "~3.12"
+click = "^8.1.3"
+pydantic = "^2.11.7"
+pydantic-settings = "^2.10.1"
+
+deps-lil-chyn = { path = "../vendors/deps-lil-chyn", develop = true }
+
+[tool.poetry.dev-dependencies]
+mypy = "^1.5.1"
+bandit = "^1.7.5"
+flake8 = "^6.1.0"
+wemake-python-styleguide = "^0.18.0"
+isort = "^5.12.0"
+black = "^23.7.0"
+pytest = "^7.4.1"
+coverage = "^5.5"
+factory-boy = "^3.2.0"
+pytest-factoryboy = "^2.1.0"
+pytest-mock = "^3.6.0"
+pytest-unordered = "^0.4.1"
+requests-mock = "~1.9.3"
+types-requests = "^2.25.6"
+wdb = "^3.3.0"
+ipdb = "^0.13.9"
+see = "^1.4.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line-length = 120
+target-version = ['py312']
+exclude = '''
+(
+    .venv
+    | vendors
+)
+'''

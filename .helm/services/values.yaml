@@ -1,0 +1,210 @@
+# Default values for deps-backend.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+helm_logs_job:
+  serviceAccountName: gitlab-ci
+  image:
+    path: "/base/kubernetes-helm"
+    pullPolicy: IfNotPresent
+    tag: "0.1.1"
+
+# Secrets declaration
+secrets:
+  common_secret:
+    secretName: common-secret
+  file_storage_url:
+    secretName: file-storage-external-url
+  document_type_url:
+    secretName: document-type-external-url
+  unifier_url:
+    secretName: unifier-external-url
+  kafka_secrets:
+    secretName: kafka-secrets
+  deps_generic_unifier_plugin:
+    secretName: deps-generic-unifier-plugin
+  telemetry_secrets:
+    secretName: telemetry-secrets
+
+registry: ""
+env: ""
+
+replicaCount: 1
+image:
+  path: "/deps-dev-x01/deps-generic-unifier-plugin"
+  pullPolicy: IfNotPresent
+  tag: ""
+imagePullSecrets: artifactory
+
+service:
+  type: ClusterIP
+  port: 8000
+
+resources:
+  requests:
+    memory: 4000Mi
+  limits:
+    memory: 4000Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+
+generic_unifier_plugin_settings:
+  ENV: development
+
+  VERIFY_SSL: 'false'
+  DEFAULT_COMMAND_CHANNEL: generic-unifier-plugin-commands
+
+  DOCUMENT_TYPE_URL: http://document-type:8000/api/document-type/v1
+  FILE_STORAGE_URL: http://file-storage:8004
+  UNIFIER_URL: http://unifier:8000/api/unifier/v1
+
+  OBJECT_STORAGE_MODE: "sync"
+  OBJECT_STORAGE_TYPE: "file-storage"
+
+  KAFKA_GROUP_ID: generic-unifier-plugin
+  KAFKA_SECURITY_ENABLED: false
+  KAFKA_ENABLE_AUTO_COMMIT: false
+  KAFKA_ENABLE_AUTO_OFFSET_STORE: True
+  KAFKA_MAX_POLL_INTERVAL_MS: 300000
+
+  CELL_CHUNK_SIZE: 1000
+  TARGET_DPI: 300
+  PDF_MAX_PROCESSES: 3
+
+  # possible values: docx pdf csv png jpg jpeg xlsx xls
+  SUPPORTED_ATTACHMENT_EXTENSIONS: '["pdf","csv","xlsx","xls","docx"]'
+
+  # Azure Service Bus
+  ASB_SUBSCRIPTION_NAME: 'generic-unifier-plugin'
+  ASB_SUBSCRIPTION_STRATEGY: 'no_preparation'
+  ASB_TOPIC_NAME: 'deps-topic'
+  message_broker_asb_without_manage_permission: false
+
+  GCP_BLOB_STORAGE_BUCKET_NAME: ""
+
+  S3_ENDPOINT_URL: ""
+  S3_BUCKET_NAME: ""
+
+  # Telemetry
+  INSTRUMENTATION_ENABLED: false
+  SERVICE_NAME: deps-generic-unifier-plugin
+  EXPORTER_TYPE: azure
+
+message_broker_asb_without_manage_permission:
+  enabled: false
+
+helm:
+  enabled: false
+
+csi:
+  csi_default_name: deps-generic-unifier-plugin
+  vault_namespace: 'k8s-dev'
+  roleName: 'k8s-dev'
+  vaultKubernetesMountPath: 'kubernetes-dev'
+
+secrets_location:
+  secrets_default_path: "/mnt/secrets-store"
+
+service_account:
+  serviceAccountName: 'deps-develop'
+
+secret_project_id:
+  id: ""
+
+azure_kv_settings:
+  keyvaultName: ""
+  tenantId: ""
+  userAssignedIdentityID: ""
+  resourceGroup: ""
+  subscriptionId: ""
+
+vault_settings:
+  enabled: false
+  hashicorp_vault: false
+  azure_key_vault: false
+  gcp_secret_manager: false
+  aws_secret_manager: false
+  aws_secret_manager_region: ''
+
+generic_unifier_plugin_vault_enabled:
+  env:
+  - name: MESSAGING_DRIVER
+    valueFrom:
+      secretKeyRef:
+        name: deps-generic-unifier-plugin
+        key: message-broker-driver
+  - name: MESSAGE_BROKER_CONNECTION_STRING
+    valueFrom:
+      secretKeyRef:
+        name: deps-generic-unifier-plugin
+        key: message-broker-connection-string
+  - name: AZURE_CONNECTION_STRING
+    valueFrom:
+      secretKeyRef:
+        name: deps-generic-unifier-plugin
+        key: azure-connection-string
+  - name: AZURE_CONTAINER_NAME
+    valueFrom:
+      secretKeyRef:
+        name: deps-generic-unifier-plugin
+        key: azure-container-name
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef:
+        name: deps-generic-unifier-plugin
+        key: aws-access-key-id
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: deps-generic-unifier-plugin
+        key: aws-secret-access-key
+  - name: GCP_BLOB_STORAGE_AUTH_KEY
+    valueFrom:
+      secretKeyRef:
+        name: deps-generic-unifier-plugin
+        key: gcp-api-key
+
+generic_unifier_plugin_vault_disabled:
+  env:
+  - name: MESSAGING_DRIVER
+    valueFrom:
+      secretKeyRef:
+        name: common-secret
+        key: message-broker-driver
+  - name: MESSAGE_BROKER_CONNECTION_STRING
+    valueFrom:
+      secretKeyRef:
+        name: common-secret
+        key: message-broker-connection-string
+  - name: AZURE_CONNECTION_STRING
+    valueFrom:
+      secretKeyRef:
+        name: azure-blob-storage
+        key: azure-connection-string
+  - name: AZURE_CONTAINER_NAME
+    valueFrom:
+      secretKeyRef:
+        name: azure-blob-storage
+        key: azure-container-name
+  - name: AWS_ACCESS_KEY_ID
+    valueFrom:
+      secretKeyRef:
+        name: file-storage-aws-credentials
+        key: aws-access-key-id
+  - name: AWS_SECRET_ACCESS_KEY
+    valueFrom:
+      secretKeyRef:
+        name: file-storage-aws-credentials
+        key: aws-secret-access-key
+  - name: GCP_BLOB_STORAGE_AUTH_KEY
+    valueFrom:
+      secretKeyRef:
+        name: gcp-credentials
+        key: gcp-api-key

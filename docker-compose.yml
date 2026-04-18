@@ -1,0 +1,29 @@
+version: "3.4"
+
+services:
+  generic-unifier-plugin:
+    image: deps-generic-unifier-plugin:latest
+    container_name: deps-generic-unifier-plugin
+    build:
+      context: .
+      dockerfile: ./etc/deps-generic-unifier-plugin/Dockerfile
+      target: develop
+      args:
+        REPOSITORY_URL: "${REPOSITORY_URL}"
+    env_file: ./etc/deps-generic-unifier-plugin/env/.dev.env
+    volumes:
+      - ./src/deps_generic_unifier_plugin:/app/deps_generic_unifier_plugin
+      - ./src/poetry.lock:/app/poetry.lock
+      - ./src/pyproject.toml:/app/pyproject.toml
+      - ./src/requirements.txt:/app/requirements.txt
+      - ./vendors:/vendors
+      - ./src/tests:/app/tests
+      - ./src/setup.cfg:/app/setup.cfg
+    networks:
+      - deps-network
+    stdin_open: true
+    tty: true
+
+networks:
+  deps-network:
+    external: true

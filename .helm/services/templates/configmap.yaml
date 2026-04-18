@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: generic-unifier-plugin-configmap
+  labels:
+    {{- include "generic-unifier-plugin.labels" . | nindent 4 }}
+data:
+  ENV: {{ .Values.generic_unifier_plugin_settings.ENV }}
+  VERIFY_SSL: '{{ .Values.generic_unifier_plugin_settings.VERIFY_SSL }}'
+  KAFKA_GROUP_ID: '{{ .Values.generic_unifier_plugin_settings.KAFKA_GROUP_ID }}'
+  KAFKA_ENABLE_AUTO_COMMIT: '{{ .Values.generic_unifier_plugin_settings.KAFKA_ENABLE_AUTO_COMMIT }}'
+  KAFKA_ENABLE_AUTO_OFFSET_STORE: '{{ .Values.generic_unifier_plugin_settings.KAFKA_ENABLE_AUTO_OFFSET_STORE }}'
+  KAFKA_MAX_POLL_INTERVAL_MS: '{{ .Values.generic_unifier_plugin_settings.KAFKA_MAX_POLL_INTERVAL_MS }}'
+  DEFAULT_COMMAND_CHANNEL: '{{ .Values.generic_unifier_plugin_settings.DEFAULT_COMMAND_CHANNEL }}'
+  DOCUMENT_TYPE_URL: '{{ .Values.generic_unifier_plugin_settings.DOCUMENT_TYPE_URL }}'
+  FILE_STORAGE_URL: '{{ .Values.generic_unifier_plugin_settings.FILE_STORAGE_URL }}'
+  UNIFIER_URL: '{{ .Values.generic_unifier_plugin_settings.UNIFIER_URL }}'
+  CELL_CHUNK_SIZE: '{{ .Values.generic_unifier_plugin_settings.CELL_CHUNK_SIZE }}'
+  SUPPORTED_ATTACHMENT_EXTENSIONS: '{{ .Values.generic_unifier_plugin_settings.SUPPORTED_ATTACHMENT_EXTENSIONS }}'
+  {{ if .Values.generic_unifier_plugin_settings.KAFKA_SECURITY_ENABLED }}
+  KAFKA_SASL_MECHANISM: '{{ .Values.generic_unifier_plugin_settings.KAFKA_SASL_MECHANISM }}'
+  KAFKA_SECURITY_PROTOCOL: '{{ .Values.generic_unifier_plugin_settings.KAFKA_SECURITY_PROTOCOL }}'
+  {{ end }}
+  ASB_SUBSCRIPTION_NAME: '{{ .Values.generic_unifier_plugin_settings.ASB_SUBSCRIPTION_NAME }}'
+  {{ if .Values.generic_unifier_plugin_settings.message_broker_asb_without_manage_permission }}
+  ASB_SUBSCRIPTION_STRATEGY: '{{ .Values.generic_unifier_plugin_settings.ASB_SUBSCRIPTION_STRATEGY }}'
+  {{ end }}
+  ASB_TOPIC_NAME: '{{ .Values.generic_unifier_plugin_settings.ASB_TOPIC_NAME }}'
+
+  OBJECT_STORAGE_MODE: '{{ .Values.generic_unifier_plugin_settings.OBJECT_STORAGE_MODE }}'
+  OBJECT_STORAGE_TYPE: '{{ .Values.generic_unifier_plugin_settings.OBJECT_STORAGE_TYPE }}'
+
+  GCP_BLOB_STORAGE_BUCKET_NAME: '{{ .Values.generic_unifier_plugin_settings.GCP_BLOB_STORAGE_BUCKET_NAME }}'
+
+  S3_ENDPOINT_URL: '{{ .Values.generic_unifier_plugin_settings.S3_ENDPOINT_URL }}'
+  S3_BUCKET_NAME: '{{ .Values.generic_unifier_plugin_settings.S3_BUCKET_NAME }}'
+
+  # Telemetry
+  INSTRUMENTATION_ENABLED: '{{ .Values.generic_unifier_plugin_settings.INSTRUMENTATION_ENABLED }}'
+  SERVICE_NAME: '{{ .Values.generic_unifier_plugin_settings.SERVICE_NAME }}'
+  EXPORTER_TYPE: '{{ .Values.generic_unifier_plugin_settings.EXPORTER_TYPE }}'
+
+  TARGET_DPI: '{{ .Values.generic_unifier_plugin_settings.TARGET_DPI }}'
+  PDF_MAX_PROCESSES: '{{ .Values.generic_unifier_plugin_settings.PDF_MAX_PROCESSES }}'
