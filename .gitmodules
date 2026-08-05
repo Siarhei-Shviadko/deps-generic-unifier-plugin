@@ -1,9 +1,6 @@
 [submodule "vendors/deps-lil-chyn"]
 	path = vendors/deps-lil-chyn
-	url = git@github.com:epam/deps-lil-chyn.git
+	url = git@github.com:Siarhei-Shviadko/deps-lil-chyn.git
 [submodule "vendors/deps-pipelines"]
 	path = vendors/deps-pipelines
-	url = git@github.com:epam/deps-pipelines.git
-[submodule "vendors/deps-lil-chyn.git"]
-	path = vendors/deps-lil-chyn.git
-	url = git@github.com:epam/deps-lil-chyn.git
+	url = git@github.com:Siarhei-Shviadko/deps-pipelines.git
