@@ -31,6 +31,8 @@ types-requests = "^2.25.6"
 wdb = "^3.3.0"
 ipdb = "^0.13.9"
 see = "^1.4.1"
+# setuptools 82+ dropped pkg_resources; flake8-commas 2.x (pulled by wemake-python-styleguide) still imports it for flake8 plugins.
+setuptools = ">=70,<82"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

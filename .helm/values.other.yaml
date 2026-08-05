@@ -1,7 +1,0 @@
-image:
-  path: "/deps-platform/deps-generic-unifier-plugin"
-resources:
-
-generic_unifier_plugin_settings:
-  ENV: other
-  VERIFY_SSL: 'false'
